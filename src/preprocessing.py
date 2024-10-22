@@ -12,22 +12,14 @@ def load_data(filepath):
     return pd.read_csv(filepath)
 
 
-
-def impute_data(data, imputer):
-    if imputer == 'knn':
-        imputer = KNNImputer(n_neighbors=5)
-    if imputer == 'mean':
-        imputer = SimpleImputer(strategy='mean')
-    if imputer == 'median':
-        imputer = SimpleImputer(strategy='median')
-    if imputer == 'most_frequent':
-        imputer = SimpleImputer(strategy='most_frequent')
-    if imputer == 'constant':
-        imputer = SimpleImputer(strategy='constant', fill_value=0)
-    else:
-        raise ValueError("Invalid imputer type. Please choose from 'knn', 'mean', 'median', 'most_frequent', or 'constant'.")
-    # Apply the imputer to the dataset
+def impute_data(data):
+    # Apply the KNN imputer to the dataset
+    imputer = KNNImputer(n_neighbors=5)
     data_imputed = imputer.fit_transform(data)
+    
+    # Recreate DataFrame after imputation
+    #data_imputed = pd.DataFrame(data_imputed, columns=data.columns)
+    
     return data_imputed
 
 
@@ -39,9 +31,6 @@ def preprocess_data(data):
 
     #Binarisation For Locations
     data = pd.get_dummies(data)
-    data = impute_data(data, imputer='knn')
-    data = pd.DataFrame(data, columns=data.columns)
-    # Split the data into features (X) and target (y)
     return data
 
 def split_data(data, test_size=0.2, random_state=42):

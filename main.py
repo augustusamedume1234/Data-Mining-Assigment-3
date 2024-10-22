@@ -1,4 +1,4 @@
-from src.data_preprocessing import load_data, preprocess_data, feature_selection
+from src.preprocessing import load_data, preprocess_data, feature_selection
 from src.model_training import train_and_evaluate
 
 def main():
